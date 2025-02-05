@@ -1,7 +1,5 @@
 @import '../node_modules/tailwindcss';
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
   --breakpoint-ssl: 777px;
 }
