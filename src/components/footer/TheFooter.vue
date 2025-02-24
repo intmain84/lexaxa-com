@@ -1,12 +1,7 @@
-<script lang="ts" setup="">
-
-</script>
+<script lang="ts" setup=""></script>
 
 <template>
-  <footer class="xl:mx-auto xl:max-w-[109rem]">Footer</footer>
+  <footer class="container">Footer</footer>
 </template>
 
-
-<style scoped>
-
-</style>
+<style scoped></style>

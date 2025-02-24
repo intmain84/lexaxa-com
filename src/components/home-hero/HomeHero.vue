@@ -1,31 +1,45 @@
 <script lang="ts" setup="">
-import { useI18n } from 'vue-i18n'
+import TheButton from '../TheButton.vue'
 
-const { t } = useI18n()
+const competence = ['React.js', 'Next.js', 'Vue.js', 'Figma', 'Webflow']
 </script>
 
 <template>
-  <!-- Hero -->
-  <div class="py-40 h-[calc(100vh-72px)] tracking-wide text-2xl grid grid-cols-2">
-    <div class="self-start text-6xl flex flex-col gap-y-4">
-      <h1 class="font-bold">{{ t('greet') }}</h1>
-      <p class="mb-1 font-bold">{{ $t('developer') }}</p>
+  <div class="relative flex flex-col justify-center gap-10 xl:h-[calc(100vh-60px)]">
+    <h1 class="absolute opacity-0">Alex Yudin. Intuitive Interface Designer and Developer</h1>
+    <div class="relative">
       <div
-        class="text-base uppercase before:content-['{'] after:content-['}'] tracking-wide font-[300] flex-inline space-x-6 text-mint mb-12"
-      >
-        <span class="ml-2">React.js</span><span>Next.js</span><span>Vue.js</span
-        ><span class="mr-2">Webflow</span>
-      </div>
+        class="-z-10 absolute left-[31%] -top-[30%] rotate-40 aspect-square h-[145%] rounded-full bg-conic from-obsidian-light to-obsidian to-50%"
+      ></div>
+      <img src="@/assets/a-y.svg" alt="Alex Yudin" class="w-full" />
     </div>
-    <div class="w-170 self-end place-self-end">
-      <p class="block mb-10">{{ $t('experience') }} {{ $t('job') }}</p>
-      <button
-        class="h-18 text-base px-7 bg-mint text-obsidian uppercase cursor-pointer hover:bg-fog"
+
+    <div class="flex justify-between gap-8">
+      <div>
+        <h2 class="block mb-6 text-4xl/12">
+          I'm not chasing awwwards,<br />but shipping real products
+        </h2>
+        <TheButton>Let's work together</TheButton>
+      </div>
+      <div
+        class="before:content-['\['] after:content-['\]'] text-base font-light uppercase flex space-x-6 mb-12"
       >
-        {{ $t('CTA') }}
-      </button>
+        <span class="first:ml-4 last:mr-4" v-for="item in competence" :key="item">{{ item }}</span>
+      </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.octagon {
+  z-index: -1;
+  position: absolute;
+  left: 45%;
+  transform: rotate(35deg);
+  width: 300px;
+  height: 300px;
+  background: url('https://img.goodfon.com/wallpaper/big/b/d3/judy-alvarez-cyberpunk-2077-igra-personazh-portret-vzgliad-b.webp')
+    center/cover;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+}
+</style>

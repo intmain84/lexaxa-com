@@ -1,14 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
 
 @import 'tailwindcss';
 
 @theme {
   /* Colors */
   --color-*: initial;
-  --color-mint: #d3fbd8;
-  --color-obsidian: #231E26;
-  --color-fog: #D3D2D4;
+  --color-mint: #d3b287;
+  --color-obsidian: #1b181d;
+  --color-obsidian-dark: #1c191f;
+  --color-obsidian-light: #2b2730;
+  --color-fog: #dad7dc;
 
-/* Fonts */
-  --font-geist: 'Geist Mono', monospace;
+  /* Fonts */
+  --font-headers: 'Big Shoulders Display', sans-serif;
+  --font-basic: 'Inter Tight', sans-serif;
+}
+
+.container {
+  @apply xl:mx-auto xl:max-w-[116rem] px-6;
+}
+
+.container-narrow {
+  @apply xl:mx-auto xl:max-w-[70rem] px-6;
 }
