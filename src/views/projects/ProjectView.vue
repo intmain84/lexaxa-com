@@ -41,7 +41,7 @@ onMounted(async () => {
       <img
         :src="projectsStore.project.image"
         :alt="projectsStore.project.title"
-        class="max-w-full mb-8 aspect-video object-cover"
+        class="w-full mb-8 aspect-video object-cover"
       />
 
       <div>
@@ -51,7 +51,7 @@ onMounted(async () => {
             v-else-if="item.type === 'image'"
             :src="item.value"
             :alt="projectsStore.project.title"
-            class="max-w-full mb-8"
+            class="w-full mb-8"
           />
         </template>
       </div>

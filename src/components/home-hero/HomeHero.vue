@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import TheButton from '../TheButton.vue'
+import TheButton from '@/components/TheButton.vue'
 
 const competence = ['React.js', 'Next.js', 'Vue.js', 'Figma', 'Webflow']
 </script>
@@ -17,7 +17,7 @@ const competence = ['React.js', 'Next.js', 'Vue.js', 'Figma', 'Webflow']
     <div class="flex justify-between gap-8">
       <div>
         <h2 class="block mb-6 text-4xl/12">
-          I'm not chasing awwwards,<br />but shipping real products
+          I'm not chasing awwwards,<br />but shippping real products
         </h2>
         <TheButton>Let's work together</TheButton>
       </div>

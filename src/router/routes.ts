@@ -5,6 +5,11 @@ export const routes = [
     component: () => import('@/views/HomeView.vue'),
   },
   {
+    path: '/new-project',
+    name: 'new-project',
+    component: () => import('@/views/projects/NewProject.vue'),
+  },
+  {
     path: '/projects',
     name: 'projects',
     component: () => import('@/views/projects/ProjectListView.vue'),
