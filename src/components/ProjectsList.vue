@@ -27,7 +27,7 @@ onMounted(async () => {
       <RouterLink
         v-for="project in projectsStore.projects"
         :key="project.id"
-        :to="`/projects/${project.link}`"
+        :to="{ name: 'project', params: { link: project.link } }"
         class="relative flex items-center justify-between gap-4 group py-10 border-obsidian-light border-t-1 hover:text-obsidian"
       >
         <h3

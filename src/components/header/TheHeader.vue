@@ -1,5 +1,25 @@
 <script lang="ts" setup>
 import { CONTACTS } from '@/constants/contact.ts'
+import { signOut } from 'firebase/auth'
+import { auth } from '@/lib/firebase'
+import TheButton from '../TheButton.vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+
+const router = useRouter()
+
+const userStore = useUserStore()
+
+function handleClick() {
+  signOut(auth)
+    .then(() => {
+      userStore.signOut()
+      router.push('/')
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
 </script>
 
 <template>
@@ -16,6 +36,7 @@ import { CONTACTS } from '@/constants/contact.ts'
       <nav>
         <RouterLink to="/projects" class="hover:text-mint py-2">Projects</RouterLink>
       </nav>
+      <TheButton v-if="userStore.user" @click="handleClick">Sign Out</TheButton>
     </div>
   </header>
 </template>

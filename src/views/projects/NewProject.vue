@@ -1,65 +1,194 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { CoText, BsImageFill, AnOutlinedDelete } from '@kalimahapps/vue-icons'
-import TheButton from '@/components/TheButton.vue'
+import { CoText, BsImageFill, AnOutlinedDelete, CdLoading } from '@kalimahapps/vue-icons'
 
-interface ContentBlock {
-  order: number
-  type: 'paragraph' | 'image'
-  value: string
-}
+import TheButton from '@/components/TheButton.vue'
+import { uploadFile, deleteFile } from '@/lib/storage'
 
 const title = ref<string>('')
-const formData = ref<ContentBlock[]>([])
+const mainImage = ref<string>('')
+const tags = ref<string>('')
+
+//Images names
+interface Images {
+  id: number
+  name: string
+}
+const images = ref<Images[]>([])
+
+const imageUploadError = ref<string>('')
+
+const isPending = ref<boolean>(false)
+
+//Content blocks data
+interface ContentBlock {
+  order: number
+  type: string
+  value: string
+}
+const content = ref<ContentBlock[]>([])
 
 const addBlock = (type: string): void => {
-  formData.value.push({
-    order: formData.value.length + 1,
+  content.value.push({
+    order: content.value.length + 1,
     type,
     value: '',
   })
 }
 
-const deleteBlock = (index: number): void => {
-  formData.value.splice(index, 1)
+const deleteBlock = async (index: number) => {
+  const foundFile = images.value.find((file) => file.id == index)
+  const fileName = foundFile ? foundFile.name : null
+
+  try {
+    if (fileName) {
+      await deleteFile(fileName) // Delete image from db
+      content.value.splice(index, 1) // Delete block from the page
+    } else {
+      console.log('File not found in images')
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const getFile = async (event: Event, index: number | null = null) => {
+  const input = event.target as HTMLInputElement
+  try {
+    isPending.value = true
+    if (input.files && input.files.length > 0) {
+      const image = input.files[0]
+      if (index !== null) {
+        console.log('Image true')
+        images.value.push({ id: index, name: image.name })
+        const path = await uploadFile(input.files[0])
+        content.value[index].value = path
+      } else {
+        console.log('Image false')
+        const path = await uploadFile(input.files[0])
+        mainImage.value = path
+      }
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      imageUploadError.value = error.message
+    } else {
+      imageUploadError.value = 'Unknown error'
+    }
+  } finally {
+    isPending.value = false
+  }
+}
+
+const submitForm = async () => {
+  const tagsArray = tags.value.split(',').map((tag) => tag.trim())
+  const link = title.value
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .trim()
+  const formData = {
+    title: title.value,
+    mainImage: mainImage.value,
+    link,
+    tags: tagsArray,
+    content: JSON.parse(JSON.stringify(content.value)),
+  }
+  console.log(formData)
 }
 </script>
 
 <template>
-  <div class="container-narrow mt-20">
-    <form @submit.prevent>
+  <div class="relative container-narrow mt-20">
+    <div
+      v-if="isPending"
+      class="absolute flex justify-center w-full h-full bg-obsidian opacity-100"
+    >
+      <CdLoading class="animate-spin text-6xl text-mint" />
+    </div>
+    <form @submit.prevent="submitForm">
       <!-- Title -->
       <div class="form-group">
-        <input
+        <textarea
           type="text"
           id="name"
           placeholder="Project title..."
           v-model="title"
-          class="font-headers uppercase text-[6rem] mb-10 font-bold w-full focus:outline-none border-b-[1px] border-obsidian-light focus:border-mint transition-all duration-500 ease-in-out"
+          class="font-headers uppercase text-[6rem] mb-10 font-bold w-full focus:outline-none border-b-[1px] border-obsidian-light focus:border-mint transition-all duration-500 ease-in-out field-sizing-content resize-none"
+        />
+      </div>
+
+      <!-- Tags -->
+
+      <div class="flex gap-4 mb-10 items-start">
+        <input
+          type="text"
+          id="tags"
+          placeholder="Tags separated with comma..."
+          v-model="tags"
+          class="w-full min-h-[40px] focus:outline-none border-b-[1px] border-obsidian-light focus:border-mint transition-all duration-500 ease-in-out field-sizing-content resize-none"
+        />
+      </div>
+
+      <!-- Main image -->
+      <div class="w-full mb-10">
+        <label
+          for="main-image"
+          class="block text-center w-full p-2 border cursor-pointer border-dashed border-obsidian-light hover:text-mint hover:border-mint transition-all duration-500 ease-in-out"
+        >
+          <span v-if="mainImage.length === 0">Upload main image</span>
+          <img
+            :src="mainImage"
+            class="place-self-center w-full mb-8 aspect-video object-cover"
+            v-else
+          />
+        </label>
+        <input
+          type="file"
+          id="main-image"
+          name="main-image"
+          accept="image/png, image/jpeg"
+          class="hidden"
+          v-on:change="(event: Event) => getFile(event)"
         />
       </div>
 
       <!-- Place for new inputs -->
-      <div v-if="formData.length !== 0">
-        <div class="flex gap-4 mb-10" v-for="(block, index) in formData" :key="block.order">
-          <input
+      <div v-if="content.length !== 0">
+        <div
+          class="flex gap-4 mb-10 items-start"
+          v-for="(block, index) in content"
+          :key="block.order"
+        >
+          <textarea
             type="text"
-            :id="block.order + index"
+            :id="`text-${block.order}-${index}`"
             placeholder="Your text..."
-            v-model="formData[index].value"
-            class="w-full focus:outline-none border-b-[1px] border-obsidian-light focus:border-mint transition-all duration-500 ease-in-out"
+            v-model="content[index].value"
+            class="w-full min-h-[40px] focus:outline-none border-b-[1px] border-obsidian-light focus:border-mint transition-all duration-500 ease-in-out field-sizing-content resize-none"
             v-if="block.type === 'paragraph'"
           />
-          <input
-            type="file"
-            :id="block.order + index"
-            :name="block.order + index"
-            accept="image/png, image/jpeg"
-            v-else-if="block.type === 'image'"
-          />
+          <div v-else-if="block.type === 'image'" class="w-full">
+            <label
+              :for="`file-${block.order}-${index}`"
+              class="block text-center w-full p-2 border cursor-pointer border-dashed border-obsidian-light hover:text-mint hover:border-mint transition-all duration-500 ease-in-out"
+            >
+              <span v-if="images[index]?.id !== index">Upload image</span>
+              <img :src="block.value" class="max-w-80 place-self-center" v-else />
+            </label>
+            <input
+              type="file"
+              :id="`file-${block.order}-${index}`"
+              :name="`file-${block.order}-${index}`"
+              accept="image/png, image/jpeg"
+              class="hidden"
+              v-on:change="(event: Event) => getFile(event, index)"
+            />
+          </div>
           <AnOutlinedDelete
             class="p-3 h-10 w-10 bg-obsidian-light text-mint cursor-pointer hover:bg-mint hover:text-obsidian transition-all duration-500 ease-in-out"
             @click.stop="deleteBlock(index)"
+            v-if="!isPending"
           />
         </div>
       </div>
@@ -77,7 +206,7 @@ const deleteBlock = (index: number): void => {
           />
         </div>
       </div>
-      <TheButton class="mt-10">Save</TheButton>
+      <TheButton class="mt-10" v-if="!isPending">Save</TheButton>
     </form>
   </div>
 </template>
