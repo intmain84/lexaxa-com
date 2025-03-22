@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { limit, getDocs, query, where, collection } from 'firebase/firestore'
+import { limit, getDocs, addDoc, query, where, collection } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 
 type ContentItem = {
@@ -13,10 +13,13 @@ type Project = {
   createdAt: string
   id: string
   title: string
-  slug: string
   link: string
   image: string
+  caption: string
   tags: string[]
+  live: string
+  github: string
+  figma: string
   content: ContentItem[]
 }
 
@@ -26,10 +29,13 @@ export const useProjectsStore = defineStore('projects', () => {
     createdAt: '',
     id: '',
     title: '',
-    slug: '',
     link: '',
     image: '',
+    caption: '',
     tags: [],
+    live: '',
+    github: '',
+    figma: '',
     content: [],
   })
 
@@ -68,5 +74,14 @@ export const useProjectsStore = defineStore('projects', () => {
     }
   }
 
-  return { projects, project, getAllProjects, getAProject }
+  async function postProject(project: Omit<Project, 'id' | 'createdAt'>) {
+    try {
+      // Add a new document with a generated id.
+      await addDoc(collection(db, 'projects'), project)
+    } catch (error) {
+      console.log('Error posting project: ', error)
+    }
+  }
+
+  return { projects, project, getAllProjects, getAProject, postProject }
 })

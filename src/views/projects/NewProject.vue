@@ -4,20 +4,27 @@ import { CoText, BsImageFill, AnOutlinedDelete, CdLoading } from '@kalimahapps/v
 
 import TheButton from '@/components/TheButton.vue'
 import { uploadFile, deleteFile } from '@/lib/storage'
+import { useProjectsStore } from '@/stores/projects'
+import { useRouter } from 'vue-router'
+
+const projectsStore = useProjectsStore()
+const router = useRouter()
 
 const title = ref<string>('')
 const mainImage = ref<string>('')
 const tags = ref<string>('')
+const live = ref<string>('')
+const github = ref<string>('')
+const figma = ref<string>('')
+const caption = ref<string>('')
 
-//Images names
+//Images
 interface Images {
   id: number
   name: string
 }
 const images = ref<Images[]>([])
-
 const imageUploadError = ref<string>('')
-
 const isPending = ref<boolean>(false)
 
 //Content blocks data
@@ -89,12 +96,21 @@ const submitForm = async () => {
     .trim()
   const formData = {
     title: title.value,
-    mainImage: mainImage.value,
+    image: mainImage.value,
+    caption: caption.value,
     link,
     tags: tagsArray,
+    live: live.value,
+    github: github.value,
+    figma: figma.value,
     content: JSON.parse(JSON.stringify(content.value)),
   }
-  console.log(formData)
+  try {
+    await projectsStore.postProject(formData)
+    router.push({ name: 'projects' })
+  } catch (error) {
+    alert(error)
+  }
 }
 </script>
 
@@ -119,13 +135,44 @@ const submitForm = async () => {
       </div>
 
       <!-- Tags -->
-
       <div class="flex gap-4 mb-10 items-start">
         <input
           type="text"
           id="tags"
           placeholder="Tags separated with comma..."
           v-model="tags"
+          class="w-full min-h-[40px] focus:outline-none border-b-[1px] border-obsidian-light focus:border-mint transition-all duration-500 ease-in-out field-sizing-content resize-none"
+        />
+      </div>
+
+      <!-- Live -->
+      <div class="flex gap-4 mb-10 items-start">
+        <input
+          type="text"
+          id="live"
+          placeholder="Live link (http://...)"
+          v-model="live"
+          class="w-full min-h-[40px] focus:outline-none border-b-[1px] border-obsidian-light focus:border-mint transition-all duration-500 ease-in-out field-sizing-content resize-none"
+        />
+      </div>
+
+      <!-- Github -->
+      <div class="flex gap-4 mb-10 items-start">
+        <input
+          type="text"
+          id="github"
+          placeholder="Github link (http://...)"
+          v-model="github"
+          class="w-full min-h-[40px] focus:outline-none border-b-[1px] border-obsidian-light focus:border-mint transition-all duration-500 ease-in-out field-sizing-content resize-none"
+        />
+      </div>
+      <!-- Github -->
+      <div class="flex gap-4 mb-10 items-start">
+        <input
+          type="text"
+          id="figma"
+          placeholder="Figma link (http://...)"
+          v-model="figma"
           class="w-full min-h-[40px] focus:outline-none border-b-[1px] border-obsidian-light focus:border-mint transition-all duration-500 ease-in-out field-sizing-content resize-none"
         />
       </div>
@@ -150,6 +197,16 @@ const submitForm = async () => {
           accept="image/png, image/jpeg"
           class="hidden"
           v-on:change="(event: Event) => getFile(event)"
+        />
+      </div>
+      <!-- Caption -->
+      <div class="flex gap-4 mb-10 items-start">
+        <input
+          type="text"
+          id="caption"
+          placeholder="Caption"
+          v-model="caption"
+          class="w-full min-h-[40px] focus:outline-none border-b-[1px] border-obsidian-light focus:border-mint transition-all duration-500 ease-in-out field-sizing-content resize-none"
         />
       </div>
 

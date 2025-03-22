@@ -11,6 +11,11 @@ const competence = ['React.js', 'Next.js', 'Vue.js', 'Figma', 'Webflow']
       <div
         class="-z-10 absolute left-[31%] -top-[30%] rotate-40 aspect-square h-[145%] rounded-full bg-conic from-obsidian-light to-obsidian to-50%"
       ></div>
+      <img
+        src="@/assets/portrait.jpg"
+        alt="Alex Yudin"
+        class="w-100 rounded-full absolute left-[46%] top-[50%] transform -translate-x-1/2 -translate-y-1/2"
+      />
       <img src="@/assets/a-y.svg" alt="Alex Yudin" class="w-full" />
     </div>
 

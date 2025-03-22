@@ -1,24 +1,14 @@
 <script lang="ts" setup>
 import { CONTACTS } from '@/constants/contact.ts'
-import { signOut } from 'firebase/auth'
-import { auth } from '@/lib/firebase'
-import TheButton from '../TheButton.vue'
-import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-
-const router = useRouter()
+import { useRouter } from 'vue-router'
+import { CdNewFile, AkSignOut } from '@kalimahapps/vue-icons'
 
 const userStore = useUserStore()
+const router = useRouter()
 
-function handleClick() {
-  signOut(auth)
-    .then(() => {
-      userStore.signOut()
-      router.push('/')
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+function handleLogOut() {
+  userStore.logOut()
 }
 </script>
 
@@ -26,17 +16,39 @@ function handleClick() {
   <header class="text-mint relative mt-8 uppercase flex justify-between items-center container">
     <ul class="flex items-center gap-x-10">
       <li v-for="contact in CONTACTS" :key="contact.name">
-        <a :href="contact.link" class="hover:text-mint py-2">{{ contact.name }}</a>
+        <a
+          :href="contact.link"
+          class="text-mint hover:text-fog transition-all duration-500 ease-in-out py-2"
+          >{{ contact.name }}</a
+        >
       </li>
     </ul>
-    <RouterLink to="/" class="absolute left-1/2 -translate-x-1/2 hover:text-mint">
-      <span class="hidden">&lbrace;</span><span>AY</span><span class="hidden">&rbrace;</span>
+    <RouterLink
+      to="/"
+      class="absolute left-1/2 -translate-x-1/2 hover:text-fog transition-all duration-500 ease-in-out"
+    >
+      AY
     </RouterLink>
     <div class="flex items-center gap-x-10">
       <nav>
-        <RouterLink to="/projects" class="hover:text-mint py-2">Projects</RouterLink>
+        <RouterLink
+          to="/projects"
+          class="py-2 hover:text-fog transition-all duration-500 ease-in-out"
+          >Projects</RouterLink
+        >
       </nav>
-      <TheButton v-if="userStore.user" @click="handleClick">Sign Out</TheButton>
+      <div v-if="userStore.currentUserId" class="flex gap-4">
+        <CdNewFile
+          @click="() => router.push({ name: 'new-project' })"
+          class="cursor-pointer text-xl hover:text-fog transition-all duration-500 ease-in-out"
+          >New project</CdNewFile
+        >
+        <AkSignOut
+          @click="handleLogOut"
+          class="cursor-pointer text-xl hover:text-fog transition-all duration-500 ease-in-out"
+          >Sign Out</AkSignOut
+        >
+      </div>
     </div>
   </header>
 </template>

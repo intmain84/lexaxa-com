@@ -2,6 +2,16 @@
 import '@/index.css'
 import TheHeader from '@/components/header/TheHeader.vue'
 import TheFooter from '@/components/footer/TheFooter.vue'
+import { onMounted } from 'vue'
+import { useUserStore } from './stores/user'
+import { useRouter } from 'vue-router'
+
+const userStore = useUserStore()
+const router = useRouter()
+
+onMounted(() => {
+  userStore.init(router)
+})
 </script>
 
 <template>

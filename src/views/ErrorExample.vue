@@ -1,30 +1,17 @@
 <script lang="ts" setup>
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '@/lib/firebase'
 import TheButton from '@/components/TheButton.vue'
-import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import { reactive } from 'vue'
 
-const router = useRouter()
-const route = useRoute()
+const userStore = useUserStore()
 
-const user = ref<{ email: string; password: string }>({
+const user = reactive<{ email: string; password: string }>({
   email: '',
   password: '',
 })
 
 function handleClick() {
-  signInWithEmailAndPassword(auth, user.value.email, user.value.password)
-    .then(() => {
-      // Signed in
-      const redirectPath = (route.query.redirect as string) || '/'
-      router.push(redirectPath)
-    })
-    .catch((error) => {
-      const errorCode = error.code
-      const errorMessage = error.message
-      console.log(errorCode, errorMessage)
-    })
+  userStore.signIn(user)
 }
 </script>
 

@@ -1,34 +1,60 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { User } from 'firebase/auth'
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { auth } from '@/lib/firebase'
+import type { Router } from 'vue-router'
 
 export const useUserStore = defineStore('user', () => {
-  const user = ref<User | null>(null)
+  const currentUserId = ref<string | null>(null)
 
   //Getters
 
   //Actions
   //Listen auth changes on init
-  // async function init() {
-  //   onAuthStateChanged(auth, (user) => {
-  //     const pinia = getActivePinia() // 🔥 Проверяем, есть ли активная Pinia
-  //     if (pinia) {
-  //       const userStore = useUserStore(pinia) // 🔥 Передаём в стор явно
-  //       userStore.setUser(user)
-  //     }
-  //     resolve()
-  //   })
+  async function init(router: Router) {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUserId.value = user.uid
+        // router.push({ name: 'home' })
+      } else {
+        currentUserId.value = null
+        // router.push({ name: 'home' })
+      }
+    })
+  }
+
+  function signIn(credentials: { email: string; password: string }) {
+    signInWithEmailAndPassword(auth, credentials.email, credentials.password)
+      .then((userCredential) => {
+        // Signed in
+        console.log('User signed in successfully', userCredential.user)
+      })
+      .catch((error) => {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log(errorCode, errorMessage)
+      })
+  }
+
+  function logOut() {
+    signOut(auth)
+      .then(() => {
+        console.log('User signed out')
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  // //Set user
+  // async function setUser(currentUser: User | null) {
+  //   user.value = currentUser
   // }
 
-  //Set user
-  async function setUser(currentUser: User | null) {
-    user.value = currentUser
-  }
+  // //Unset user
+  // async function signOut() {
+  //   user.value = null
+  // }
 
-  //Unset user
-  async function signOut() {
-    user.value = null
-  }
-
-  return { user, setUser, signOut }
+  return { currentUserId, init, signIn, logOut }
 })
