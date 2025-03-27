@@ -9,6 +9,5 @@ import HomeServices from '@/components/home-services/HomeServices.vue'
     <HomeHero />
     <HomeProjects />
     <HomeServices />
-    <TheContacts />
   </main>
 </template>

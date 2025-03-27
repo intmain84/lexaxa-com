@@ -23,7 +23,15 @@ const competence = ['React.js', 'Next.js', 'Vue.js', 'Figma', 'Webflow']
             <h3 class="text-1xl">UX/UI Designer & Frontend Developer</h3>
           </div>
         </div>
-        <TheButton>Let's work together</TheButton>
+        <a
+          href="#contacts"
+          class="flex relative h-18 text-base px-7 bg-mint text-obsidian hover:text-fog transition-all duration-500 ease-in-out uppercase cursor-pointer group overflow-hidden"
+        >
+          <span class="relative z-10">Let's work together</span>
+          <div
+            class="absolute -top-20 -left-10 w-[500px] h-0 bg-obsidian-light transition-all duration-500 ease-in-out rotate-0 group-hover:h-[220px] z-0 group-hover:rotate-[-20deg]"
+          ></div>
+        </a>
       </div>
       <div
         class="before:content-['\['] after:content-['\]'] text-base font-light uppercase flex space-x-6 mb-12"

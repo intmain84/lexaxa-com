@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <footer class="container grid grid-cols-2 gap-12">
+  <footer id="contacts" class="container grid grid-cols-2 gap-12">
     <a
       href="https://t.me/iamaay"
       target="_blank"
