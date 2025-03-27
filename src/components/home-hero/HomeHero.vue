@@ -11,7 +11,7 @@ const competence = ['React.js', 'Next.js', 'Vue.js', 'Figma', 'Webflow']
     <h1
       class="font-headers uppercase font-bold text-[5.7rem]/26 w-[88%] xl:text-[8rem]/36 xl:w-[76%]"
     >
-      Creating digital solutions where usability comes first
+      Designing, coding, and making the digital world easier
     </h1>
 
     <div class="flex justify-between gap-8">

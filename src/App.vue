@@ -3,7 +3,7 @@ import '@/index.css'
 import TheHeader from '@/components/header/TheHeader.vue'
 import TheFooter from '@/components/footer/TheFooter.vue'
 import { onMounted } from 'vue'
-import { useUserStore } from './stores/user'
+import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()

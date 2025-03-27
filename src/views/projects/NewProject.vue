@@ -8,6 +8,11 @@ import { useProjectsStore } from '@/stores/projects'
 import { useRouter } from 'vue-router'
 import type { ContentBlock, Images } from '@/types'
 
+import { useUserStore } from '@/stores/user'
+const userStore = useUserStore()
+
+console.log('new', userStore.currentUserId)
+
 const projectsStore = useProjectsStore()
 const router = useRouter()
 
@@ -98,7 +103,7 @@ const submitForm = async () => {
     content: JSON.parse(JSON.stringify(content.value)),
   }
   try {
-    await projectsStore.postProject(formData)
+    await projectsStore.postProject({ ...formData, createdAt: new Date().toISOString() })
     router.push({ name: 'projects' })
   } catch (error) {
     alert(error)

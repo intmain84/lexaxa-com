@@ -16,7 +16,7 @@ function handleClick() {
 </script>
 
 <template>
-  <div class="container-narrow mt-20">
+  <div class="container-narrow my-20">
     <form @submit.prevent="handleClick">
       <div class="form-group">
         <input
