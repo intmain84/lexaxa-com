@@ -3,6 +3,7 @@ import { onMounted, computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useProjectsStore } from '@/stores/projects'
 import { BxFigma, GlEarth, AkGithubFill } from '@kalimahapps/vue-icons'
+import ProjectSkeleton from '@/components/Skeletons/ProjectSkeleton.vue'
 
 const projectsStore = useProjectsStore()
 const route = useRoute()
@@ -29,16 +30,13 @@ onMounted(async () => {
 
 <template>
   <div class="mt-20">
-    <div v-if="isLoading">Loading...</div>
+    <ProjectSkeleton v-if="isLoading" />
+
     <template v-else-if="projectsStore.project && !error">
       <!-- H1 -->
-      <h1 class="font-headers uppercase font-bold text-[6rem] container-narrow">
+      <h1 class="font-headers uppercase font-bold text-[6rem]/[110%] container-narrow mb-10">
         {{ projectsStore.project.title }}
       </h1>
-      <!-- H1 -->
-      <h2 class="font-headers uppercase font-bold text-[6rem] container-narrow">
-        {{ projectsStore.project.title }}
-      </h2>
       <!-- Tags -->
       <div
         class="uppercase before:content-['\['] after:content-['\]'] flex-inline space-x-6 mb-10 container-narrow"
@@ -88,17 +86,27 @@ onMounted(async () => {
       <img
         :src="projectsStore.project.image"
         :alt="projectsStore.project.title"
-        class="w-full mb-8 aspect-video object-cover container"
+        class="w-full mb-30 aspect-video object-cover"
       />
+
+      <!-- Caption -->
+      <h2 class="text-2xl/[150%] container-narrow mb-10">
+        {{ projectsStore.project.caption }}
+      </h2>
 
       <div>
         <template v-for="(item, index) in sortedContent" :key="index">
-          <p v-if="item.type === 'paragraph'" class="mb-8 container-narrow">{{ item.value }}</p>
+          <p
+            v-if="item.type === 'paragraph'"
+            class="mb-8 container-narrow font-light text-2xl/[150%]"
+          >
+            {{ item.value }}
+          </p>
           <img
             v-else-if="item.type === 'image'"
             :src="item.value"
             :alt="projectsStore.project.title"
-            class="w-full mb-8 container"
+            class="container-narrow mb-30"
           />
         </template>
       </div>

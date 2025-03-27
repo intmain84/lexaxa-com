@@ -1,14 +1,14 @@
-export const CONTACTS:{name: string, link: string}[] = [
+export const CONTACTS: { name: string; link: string }[] = [
   {
     name: 'Telegram',
-    link: '/',
+    link: 'https://t.me/iamaay',
   },
   {
     name: 'Email',
-    link: '/',
+    link: 'mailto:aheleha@gmail.com',
   },
   {
     name: 'LinkedIn',
-    link: '/',
-  }
+    link: 'https://www.linkedin.com/in/alexey-yudin-25b722170/',
+  },
 ]

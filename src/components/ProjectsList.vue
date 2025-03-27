@@ -41,7 +41,7 @@ onMounted(async () => {
           class="max-w-full aspect-video object-cover h-65 scale-100 group-hover:scale-105 transition-all duration-500 ease-in-out"
         />
         <div
-          class="uppercase before:content-['\['] after:content-['\]'] flex-inline space-x-6 -translate-x-0 group-hover:-translate-x-10 transition-all duration-500 ease-in-out"
+          class="uppercase w-52 justify-end before:content-['\['] after:content-['\]'] flex space-x-6 -translate-x-0 group-hover:-translate-x-10 transition-all duration-500 ease-in-out"
         >
           <span v-for="tag in project.tags" :key="tag" class="ml-2 mr-2">{{ tag }}</span>
         </div>

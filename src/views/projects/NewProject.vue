@@ -6,6 +6,7 @@ import TheButton from '@/components/TheButton.vue'
 import { uploadFile, deleteFile } from '@/lib/storage'
 import { useProjectsStore } from '@/stores/projects'
 import { useRouter } from 'vue-router'
+import type { ContentBlock, Images } from '@/types'
 
 const projectsStore = useProjectsStore()
 const router = useRouter()
@@ -19,20 +20,11 @@ const figma = ref<string>('')
 const caption = ref<string>('')
 
 //Images
-interface Images {
-  id: number
-  name: string
-}
 const images = ref<Images[]>([])
 const imageUploadError = ref<string>('')
 const isPending = ref<boolean>(false)
 
 //Content blocks data
-interface ContentBlock {
-  order: number
-  type: string
-  value: string
-}
 const content = ref<ContentBlock[]>([])
 
 const addBlock = (type: string): void => {
@@ -115,7 +107,7 @@ const submitForm = async () => {
 </script>
 
 <template>
-  <div class="relative container-narrow mt-20">
+  <div class="relative container-narrow my-20">
     <div
       v-if="isPending"
       class="absolute flex justify-center w-full h-full bg-obsidian opacity-100"
@@ -194,7 +186,7 @@ const submitForm = async () => {
           type="file"
           id="main-image"
           name="main-image"
-          accept="image/png, image/jpeg"
+          accept="image/avif"
           class="hidden"
           v-on:change="(event: Event) => getFile(event)"
         />
@@ -237,7 +229,7 @@ const submitForm = async () => {
               type="file"
               :id="`file-${block.order}-${index}`"
               :name="`file-${block.order}-${index}`"
-              accept="image/png, image/jpeg"
+              accept="image/avif"
               class="hidden"
               v-on:change="(event: Event) => getFile(event, index)"
             />

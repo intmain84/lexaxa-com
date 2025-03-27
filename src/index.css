@@ -5,7 +5,7 @@
 @theme {
   /* Colors */
   --color-*: initial;
-  --color-mint: #bbf47e;
+  --color-mint: #88b294;
   --color-obsidian: #1b181d;
   --color-obsidian-dark: #1c191f;
   --color-obsidian-light: #2b2730;
@@ -17,9 +17,9 @@
 }
 
 .container {
-  @apply xl:mx-auto xl:max-w-[116rem] px-6;
+  @apply mx-auto max-w-[116rem] px-6;
 }
 
 .container-narrow {
-  @apply xl:mx-auto xl:max-w-[70rem] px-6;
+  @apply mx-auto xl:max-w-[75rem] px-6;
 }

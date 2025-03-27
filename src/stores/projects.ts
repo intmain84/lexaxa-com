@@ -1,27 +1,17 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { limit, getDocs, addDoc, query, where, collection } from 'firebase/firestore'
+import {
+  limit,
+  getDocs,
+  addDoc,
+  query,
+  where,
+  collection,
+  serverTimestamp,
+  orderBy,
+} from 'firebase/firestore'
 import { db } from '@/lib/firebase'
-
-type ContentItem = {
-  order: number
-  type: string
-  value: string
-}
-
-type Project = {
-  createdAt: string
-  id: string
-  title: string
-  link: string
-  image: string
-  caption: string
-  tags: string[]
-  live: string
-  github: string
-  figma: string
-  content: ContentItem[]
-}
+import type { Project } from '@/types'
 
 export const useProjectsStore = defineStore('projects', () => {
   const projects = ref<Project[]>([])
@@ -45,14 +35,21 @@ export const useProjectsStore = defineStore('projects', () => {
   //Actions
   //Get all projects
   async function getAllProjects() {
-    const querySnapshot = await getDocs(collection(db, 'projects'))
     const projectsCollection: Project[] = []
+
+    // Запрос с сортировкой по createdAt (новые проекты первыми)
+    const q = query(collection(db, 'projects'), orderBy('createdAt', 'desc'))
+    const querySnapshot = await getDocs(q)
+
     querySnapshot.forEach((doc) => {
       const projectData = doc.data() as Omit<Project, 'id'>
       projectsCollection.push({ id: doc.id, ...projectData })
     })
+
     projects.value = projectsCollection
   }
+
+  // const q = query(projectsRef, orderBy("name"), limit(3));
 
   //Get a project
   async function getAProject(link: string) {
@@ -74,10 +71,13 @@ export const useProjectsStore = defineStore('projects', () => {
     }
   }
 
-  async function postProject(project: Omit<Project, 'id' | 'createdAt'>) {
+  async function postProject(project: Omit<Project, 'id'>) {
     try {
+      const data = { ...project, createdAt: serverTimestamp() }
+      console.log(data)
+
       // Add a new document with a generated id.
-      await addDoc(collection(db, 'projects'), project)
+      await addDoc(collection(db, 'projects'), data)
     } catch (error) {
       console.log('Error posting project: ', error)
     }

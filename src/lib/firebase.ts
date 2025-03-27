@@ -3,13 +3,15 @@ import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 import { getStorage } from 'firebase/storage'
 
+console.log(import.meta.env.VITE_API_KEY)
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyB7LfwxN-3Nfn-DnC3nqA4F8WjTCWiOvug',
-  authDomain: 'portfolio-e6c69.firebaseapp.com',
-  projectId: 'portfolio-e6c69',
-  storageBucket: 'portfolio-e6c69.firebasestorage.app',
-  messagingSenderId: '737396264718',
-  appId: '1:737396264718:web:1a60199ec6d725a109115f',
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
 }
 
 export const app = initializeApp(firebaseConfig)

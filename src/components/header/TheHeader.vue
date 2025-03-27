@@ -13,7 +13,7 @@ function handleLogOut() {
 </script>
 
 <template>
-  <header class="text-mint relative mt-8 uppercase flex justify-between items-center container">
+  <header class="text-mint relative uppercase flex justify-between items-center container">
     <ul class="flex items-center gap-x-10">
       <li v-for="contact in CONTACTS" :key="contact.name">
         <a
@@ -27,7 +27,7 @@ function handleLogOut() {
       to="/"
       class="absolute left-1/2 -translate-x-1/2 hover:text-fog transition-all duration-500 ease-in-out"
     >
-      AY
+      [ AY ]
     </RouterLink>
     <div class="flex items-center gap-x-10">
       <nav>
