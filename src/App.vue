@@ -15,7 +15,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="font-basic py-10">
+  <div class="font-basic py-6 sm:py-10">
     <TheHeader />
     <RouterView v-slot="{ Component }">
       <transition name="fade" mode="out-in">

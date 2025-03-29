@@ -1,9 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="w-full mb-40 flex flex-col gap-12">
-    <h2 class="font-headers uppercase text-6xl font-bold">Services</h2>
-    <div class="grid grid-cols-3 basis-full gap-12">
+  <div class="w-full mb-28 sm:mb-40 flex flex-col gap-12">
+    <h2 class="font-headers uppercase text-[2.8rem] sm:text-6xl font-bold">Services</h2>
+    <div class="flex flex-col sm:grid sm:grid-cols-3 gap-12">
       <div class="flex gap-8 items-start">
         <img src="@/assets/code_ic.svg" alt="Frontend Development" class="w-20" />
         <div>

@@ -13,7 +13,32 @@ function handleLogOut() {
 </script>
 
 <template>
-  <header class="text-mint relative uppercase flex justify-between items-center container">
+  <header
+    class="flex flex-col sm:hidden text-mint relative uppercase justify-between items-center container"
+  >
+    <RouterLink to="/" class="mb-4 hover:text-fog transition-all duration-500 ease-in-out">
+      [ AY ]
+    </RouterLink>
+    <ul class="flex justify-between w-full items-center gap-x-auto">
+      <li v-for="contact in CONTACTS" :key="contact.name">
+        <a
+          :href="contact.link"
+          class="text-mint hover:text-fog transition-all duration-500 ease-in-out py-2"
+          >{{ contact.name }}</a
+        >
+      </li>
+      <nav>
+        <RouterLink
+          to="/projects"
+          class="py-2 hover:text-fog transition-all duration-500 ease-in-out"
+          >Projects</RouterLink
+        >
+      </nav>
+    </ul>
+  </header>
+  <header
+    class="hidden sm:flex text-mint relative uppercase justify-between items-center container"
+  >
     <ul class="flex items-center gap-x-10">
       <li v-for="contact in CONTACTS" :key="contact.name">
         <a
@@ -25,7 +50,7 @@ function handleLogOut() {
     </ul>
     <RouterLink
       to="/"
-      class="absolute left-1/2 -translate-x-1/2 hover:text-fog transition-all duration-500 ease-in-out"
+      class="hidden sm:block absolute left-1/2 -translate-x-1/2 hover:text-fog transition-all duration-500 ease-in-out"
     >
       [ AY ]
     </RouterLink>

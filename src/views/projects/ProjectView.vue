@@ -34,7 +34,9 @@ onMounted(async () => {
 
     <template v-else-if="projectsStore.project && !error">
       <!-- H1 -->
-      <h1 class="font-headers uppercase font-bold text-[6rem]/[110%] container-narrow mb-10">
+      <h1
+        class="font-headers uppercase font-bold text-[3.3rem]/16 sm:text-[4rem]/20 xl:text-[6rem]/28 container-narrow mb-10"
+      >
         {{ projectsStore.project.title }}
       </h1>
       <!-- Tags -->
@@ -86,11 +88,11 @@ onMounted(async () => {
       <img
         :src="projectsStore.project.image"
         :alt="projectsStore.project.title"
-        class="w-full mb-30 aspect-video object-cover"
+        class="w-full mb-8 sm:mb-30 aspect-video object-cover"
       />
 
       <!-- Caption -->
-      <h2 class="text-2xl/[150%] container-narrow mb-10">
+      <h2 class="text-xl sm:text-2xl/[150%] container-narrow mb-10">
         {{ projectsStore.project.caption }}
       </h2>
 
@@ -98,7 +100,7 @@ onMounted(async () => {
         <template v-for="(item, index) in sortedContent" :key="index">
           <p
             v-if="item.type === 'paragraph'"
-            class="mb-8 container-narrow font-light text-2xl/[150%]"
+            class="mb-8 container-narrow font-light text-xl sm:text-2xl/[150%]"
           >
             {{ item.value }}
           </p>
@@ -106,7 +108,7 @@ onMounted(async () => {
             v-else-if="item.type === 'image'"
             :src="item.value"
             :alt="projectsStore.project.title"
-            class="container-narrow mb-30"
+            class="container-narrow mb-8 sm:mb-30"
           />
         </template>
       </div>
