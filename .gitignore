@@ -29,3 +29,5 @@ coverage
 
 *.tsbuildinfo
 .env
+src/views/ErrorExample.vue
+src/views/projects/NewProject.vue
