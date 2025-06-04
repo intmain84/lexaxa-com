@@ -9,6 +9,6 @@ export const CONTACTS: { name: string; link: string }[] = [
   },
   {
     name: 'LinkedIn',
-    link: 'https://www.linkedin.com/in/alexey-yudin-25b722170/',
+    link: 'https://www.linkedin.com/in/iamaay',
   },
 ]
